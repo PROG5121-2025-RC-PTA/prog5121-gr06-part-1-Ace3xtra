@@ -1,0 +1,80 @@
+const saPhoneRegex = /^(?:\+27|0)(6|7|8|9)[0-9]{8}$/;
+
+class User {
+constructor(username, password, cellNumber) {
+this.username = username;
+this.password = password;
+this.cellNumber = cellNumber;
+}
+
+static isValidCellNumber(cellNumber) {
+const saPhoneRegex = /^(?:\+27|0)(6|7|8|9)[0-9]{8}$/;
+return saPhoneRegex.test(cellNumber);
+}
+}
+
+class AuthSystem {
+constructor() {
+this.users = [];
+}
+
+register() {
+const username = prompt("Enter username:");
+const password = prompt("Enter password:");
+const cellNumber = prompt("Enter South African cell number (e.g. 0821234567 or +27821234567):");
+
+if (!User.isValidCellNumber(cellNumber)) {
+alert("Invalid South African cell number!");
+return;
+}
+
+const user = new User(username, password, cellNumber);
+this.users.push(user);
+alert("Registration successful!");
+}
+
+login() {
+const username = prompt("Enter username:");
+const password = prompt("Enter password:");
+
+const foundUser = this.users.find(user => user.username === username && user.password === password);
+
+if (foundUser) {
+alert(`Login successful! Welcome back, ${foundUser.username}.`);
+} else {
+alert("Login failed! Check your credentials.");
+}
+}
+}
+
+// Example Usage:
+const auth = new AuthSystem();
+
+let action;
+do {
+action = prompt("Choose an action: register, login, or exit").toLowerCase();
+switch(action) {
+case 'register':
+auth.register();
+break;
+case 'login':
+auth.login();
+break;
+case 'exit':
+alert("Goodbye!");
+break;
+default:
+alert("Invalid option. Please choose 'register', 'login', or 'exit'.");
+}
+} while (action !== 'exit');
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Auth App</title>
+</head>
+<body>
+<h1>Simple Auth App</h1>
+<script src="app.js"></script>
+</body>
+</html>
